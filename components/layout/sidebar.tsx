@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
-  Truck, 
-  Map, 
-  BarChart3, 
-  MessageSquare, 
-  Settings, 
+import {
+  Truck,
+  Map,
+  BarChart3,
+  MessageSquare,
+  Settings,
   Bell,
   Menu,
   X,
@@ -36,15 +36,22 @@ const sidebarItems: SidebarItem[] = [
 
 interface SidebarProps {
   className?: string;
+  onCollapsedChange?: (collapsed: boolean) => void;
 }
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className, onCollapsedChange }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+
+  const handleToggle = () => {
+    const newCollapsed = !collapsed;
+    setCollapsed(newCollapsed);
+    onCollapsedChange?.(newCollapsed);
+  };
 
   return (
     <div
       className={cn(
-        "bg-white border-r border-gray-200 transition-all duration-300 ease-in-out",
+        "fixed left-0 top-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out z-40",
         collapsed ? "w-20" : "w-64",
         className
       )}
@@ -63,7 +70,7 @@ export function Sidebar({ className }: SidebarProps) {
             </div>
           )}
           <button
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={handleToggle}
             className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             {collapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}

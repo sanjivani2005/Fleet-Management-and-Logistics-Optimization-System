@@ -6,7 +6,6 @@ import { FleetCards } from "@/components/dashboard/fleet-cards";
 import { MapView } from "@/components/map/map-view";
 import { AnalyticsCharts } from "@/components/dashboard/analytics-charts";
 import { VehicleTable } from "@/components/dashboard/vehicle-table";
-import { ChatbotPanel } from "@/components/chat/chatbot-panel";
 
 export default function Dashboard() {
   return (
@@ -25,8 +24,6 @@ export default function Dashboard() {
 
         <VehicleTable />
       </div>
-
-      <ChatbotPanel />
     </MainLayout>
   );
 }
