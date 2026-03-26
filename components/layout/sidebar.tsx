@@ -51,27 +51,27 @@ export function Sidebar({ className, onCollapsedChange }: SidebarProps) {
   return (
     <div
       className={cn(
-        "fixed left-0 top-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out z-40",
+        "fixed left-0 top-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out z-40",
         collapsed ? "w-20" : "w-64",
         className
       )}
     >
       <div className="flex flex-col h-full">
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           {!collapsed && (
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Truck className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gray-900">FleetHub</h1>
-                <p className="text-xs text-gray-500">Management System</p>
+                <h1 className="text-lg font-bold text-gray-900 dark:text-gray-100">FleetHub</h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Management System</p>
               </div>
             </div>
           )}
           <button
             onClick={handleToggle}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300"
           >
             {collapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
           </button>
@@ -85,8 +85,8 @@ export function Sidebar({ className, onCollapsedChange }: SidebarProps) {
               className={cn(
                 "flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200",
                 item.active
-                  ? "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-600 border-l-4 border-blue-600"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600"
+                  : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100"
               )}
             >
               <div className={cn("flex-shrink-0", item.active && "text-blue-600")}>

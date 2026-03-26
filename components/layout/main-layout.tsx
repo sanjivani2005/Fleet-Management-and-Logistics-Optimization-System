@@ -17,12 +17,12 @@ export function MainLayout({ children }: MainLayoutProps) {
   const marginClass = sidebarCollapsed ? 'ml-20' : 'ml-64';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="flex">
         <Sidebar onCollapsedChange={setSidebarCollapsed} />
         <div className={`flex-1 flex flex-col ${marginClass} transition-all duration-300 ease-in-out`}>
           <Navbar />
-          <main className="flex-1 p-6 overflow-auto">
+          <main className="flex-1 p-6 overflow-auto bg-gray-50 dark:bg-gray-950">
             {children}
           </main>
         </div>

@@ -87,19 +87,19 @@ export function VehicleTable({ className }: VehicleTableProps) {
   };
 
   const getFuelColor = (fuel: number) => {
-    if (fuel > 50) return "text-green-600";
-    if (fuel > 25) return "text-yellow-600";
-    return "text-red-600";
+    if (fuel > 50) return "text-green-600 dark:text-green-400";
+    if (fuel > 25) return "text-yellow-600 dark:text-yellow-400";
+    return "text-red-600 dark:text-red-400";
   };
 
   return (
-    <Card className={cn("", className)}>
-      <CardHeader>
+    <Card className={cn("bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700", className)}>
+      <CardHeader className="border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center justify-between">
-          <CardTitle>Vehicle Fleet</CardTitle>
+          <CardTitle className="text-gray-900 dark:text-gray-100">Vehicle Fleet</CardTitle>
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
               <input
                 type="text"
                 id="vehicle-search"
@@ -107,7 +107,7 @@ export function VehicleTable({ className }: VehicleTableProps) {
                 placeholder="Search vehicles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
             <select
@@ -115,7 +115,7 @@ export function VehicleTable({ className }: VehicleTableProps) {
               name="status-filter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -130,63 +130,72 @@ export function VehicleTable({ className }: VehicleTableProps) {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-medium text-gray-700">
+              <tr className="border-b border-gray-200 dark:border-gray-700">
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
                   <button
                     onClick={() => handleSort("id")}
-                    className="flex items-center space-x-1 hover:text-gray-900"
+                    className="flex items-center space-x-1 hover:text-gray-900 dark:hover:text-gray-100"
                   >
-                    <span>Vehicle ID</span>
-                    <ArrowUpDown className="w-4 h-4" />
+                    <span className="text-gray-900 dark:text-gray-100">Vehicle ID</span>
+                    <ArrowUpDown className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                   </button>
                 </th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
                   <button
                     onClick={() => handleSort("name")}
-                    className="flex items-center space-x-1 hover:text-gray-900"
+                    className="flex items-center space-x-1 hover:text-gray-900 dark:hover:text-gray-100"
                   >
-                    <span>Name</span>
-                    <ArrowUpDown className="w-4 h-4" />
+                    <span className="text-gray-900 dark:text-gray-100">Name</span>
+                    <ArrowUpDown className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                   </button>
                 </th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
                   <button
                     onClick={() => handleSort("status")}
-                    className="flex items-center space-x-1 hover:text-gray-900"
+                    className="flex items-center space-x-1 hover:text-gray-900 dark:hover:text-gray-100"
                   >
-                    <span>Status</span>
-                    <ArrowUpDown className="w-4 h-4" />
+                    <span className="text-gray-900 dark:text-gray-100">Status</span>
+                    <ArrowUpDown className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                   </button>
                 </th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Driver</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Driver</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
                   <button
                     onClick={() => handleSort("fuel")}
-                    className="flex items-center space-x-1 hover:text-gray-900"
+                    className="flex items-center space-x-1 hover:text-gray-900 dark:hover:text-gray-100"
                   >
-                    <span>Fuel</span>
-                    <ArrowUpDown className="w-4 h-4" />
+                    <span className="text-gray-900 dark:text-gray-100">Fuel</span>
+                    <ArrowUpDown className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                   </button>
                 </th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Location</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Last Update</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700">Actions</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">
+                  <button
+                    onClick={() => handleSort("lastSeen")}
+                    className="flex items-center space-x-1 hover:text-gray-900 dark:hover:text-gray-100"
+                  >
+                    <span className="text-gray-900 dark:text-gray-100">Last Seen</span>
+                    <ArrowUpDown className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  </button>
+                </th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Location</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Last Update</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredAndSortedVehicles.map((vehicle) => (
-                <tr key={vehicle.id} className="border-b border-gray-100 hover:bg-gray-50">
+                <tr key={vehicle.id} className="border-b border-gray-100 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="py-3 px-4">
-                    <div className="font-medium text-gray-900">{vehicle.id}</div>
+                    <div className="font-medium text-gray-900 dark:text-gray-100">{vehicle.id}</div>
                   </td>
                   <td className="py-3 px-4">
-                    <div className="text-gray-900">{vehicle.name}</div>
+                    <div className="text-gray-900 dark:text-gray-100">{vehicle.name}</div>
                   </td>
                   <td className="py-3 px-4">
                     {getStatusBadge(vehicle.status)}
                   </td>
                   <td className="py-3 px-4">
-                    <div className="text-gray-900">{vehicle.driver}</div>
+                    <div className="text-gray-900 dark:text-gray-100">{vehicle.driver}</div>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center space-x-2">
@@ -197,15 +206,13 @@ export function VehicleTable({ className }: VehicleTableProps) {
                     </div>
                   </td>
                   <td className="py-3 px-4">
-                    <div className="flex items-center space-x-1 text-gray-600">
+                    <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
                       <MapPin className="w-4 h-4" />
-                      <span className="text-sm truncate max-w-xs">
-                        {vehicle.location.address}
-                      </span>
+                      <span className="text-gray-600 dark:text-gray-400">{vehicle.location.address}</span>
                     </div>
                   </td>
                   <td className="py-3 px-4">
-                    <div className="flex items-center space-x-1 text-gray-600">
+                    <div className="flex items-center space-x-1 text-gray-600 dark:text-gray-400">
                       <Clock className="w-4 h-4" />
                       <span className="text-sm">
                         {formatTime(new Date(vehicle.lastUpdate))}
