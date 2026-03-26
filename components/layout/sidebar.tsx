@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Truck,
   Map,
@@ -12,7 +13,8 @@ import {
   X,
   Home,
   Package,
-  Users
+  Users,
+  User
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,13 +26,14 @@ interface SidebarItem {
 }
 
 const sidebarItems: SidebarItem[] = [
-  { icon: <Home className="w-5 h-5" />, label: "Dashboard", href: "/", active: true },
+  { icon: <Home className="w-5 h-5" />, label: "Dashboard", href: "/" },
   { icon: <Truck className="w-5 h-5" />, label: "Fleet", href: "/fleet" },
-  { icon: <Map className="w-5 h-5" />, label: "Map View", href: "/map" },
+  { icon: <Map className="w-5 h-5" />, label: "Map View", href: "/map-view" },
   { icon: <BarChart3 className="w-5 h-5" />, label: "Analytics", href: "/analytics" },
   { icon: <Package className="w-5 h-5" />, label: "Deliveries", href: "/deliveries" },
   { icon: <Users className="w-5 h-5" />, label: "Drivers", href: "/drivers" },
-  { icon: <MessageSquare className="w-5 h-5" />, label: "AI Assistant", href: "/chat" },
+  { icon: <MessageSquare className="w-5 h-5" />, label: "AI Assistant", href: "/ai-assistant" },
+  { icon: <User className="w-5 h-5" />, label: "Profile", href: "/profile" },
   { icon: <Settings className="w-5 h-5" />, label: "Settings", href: "/settings" },
 ];
 
@@ -41,6 +44,7 @@ interface SidebarProps {
 
 export function Sidebar({ className, onCollapsedChange }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const pathname = usePathname();
 
   const handleToggle = () => {
     const newCollapsed = !collapsed;
@@ -78,34 +82,37 @@ export function Sidebar({ className, onCollapsedChange }: SidebarProps) {
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
-          {sidebarItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200",
-                item.active
-                  ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600"
-                  : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100"
-              )}
-            >
-              <div className={cn("flex-shrink-0", item.active && "text-blue-600")}>
-                {item.icon}
-              </div>
-              {!collapsed && (
-                <span className="font-medium">{item.label}</span>
-              )}
-            </a>
-          ))}
+          {sidebarItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200",
+                  isActive
+                    ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600"
+                    : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100"
+                )}
+              >
+                <div className={cn("flex-shrink-0", isActive && "text-blue-600")}>
+                  {item.icon}
+                </div>
+                {!collapsed && (
+                  <span className="font-medium">{item.label}</span>
+                )}
+              </a>
+            );
+          })}
         </nav>
 
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full"></div>
             {!collapsed && (
               <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">Admin User</p>
-                <p className="text-xs text-gray-500">admin@fleethub.com</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Admin User</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">admin@fleethub.com</p>
               </div>
             )}
           </div>

@@ -19,17 +19,24 @@ export function ChatbotPanel({ className, isVisible: propIsVisible, onToggle }: 
   const [isMinimized, setIsMinimized] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [internalIsVisible, setInternalIsVisible] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const isVisible = propIsVisible !== undefined ? propIsVisible : internalIsVisible;
   const setIsVisible = onToggle || setInternalIsVisible;
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (mounted) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, mounted]);
 
   const handleSendMessage = async () => {
     if (input.trim() === "") return;

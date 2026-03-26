@@ -8,14 +8,19 @@ import { cn } from "@/lib/utils";
 
 interface MapViewProps {
   className?: string;
+  vehicles?: any[];
+  selectedVehicle?: any;
+  mapType?: 'roadmap' | 'satellite' | 'hybrid';
 }
 
-export function GoogleMapsView({ className }: MapViewProps) {
+export function GoogleMapsView({ className, vehicles, selectedVehicle, mapType = 'roadmap' }: MapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
+  const [internalSelectedVehicle, setInternalSelectedVehicle] = useState<string | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [google, setGoogle] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
+  const currentVehicles = vehicles || mockVehicles;
+  const currentSelectedVehicle = selectedVehicle || internalSelectedVehicle;
 
   useEffect(() => {
     // Load Google Maps API
@@ -23,7 +28,7 @@ export function GoogleMapsView({ className }: MapViewProps) {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
     script.async = true;
     script.defer = true;
-    
+
     script.onload = () => {
       setGoogle(window.google);
       setMapLoaded(true);
@@ -50,11 +55,11 @@ export function GoogleMapsView({ className }: MapViewProps) {
           }
         ]
       });
-      
+
       setMap(mapInstance);
 
       // Add markers for vehicles
-      mockVehicles.forEach((vehicle) => {
+      currentVehicles.forEach((vehicle) => {
         const marker = new google.maps.Marker({
           position: {
             lat: 40.7128 + (Math.random() - 0.5) * 0.1,
@@ -85,9 +90,13 @@ export function GoogleMapsView({ className }: MapViewProps) {
           `
         });
 
+        const handleMarkerClick = (vehicleId: string) => {
+          setInternalSelectedVehicle(vehicleId);
+        };
+
         marker.addListener('click', () => {
           infoWindow.open(mapInstance, marker);
-          setSelectedVehicle(vehicle.id);
+          handleMarkerClick(vehicle.id);
         });
       });
     }
@@ -123,12 +132,12 @@ export function GoogleMapsView({ className }: MapViewProps) {
           </CardHeader>
           <CardContent className="p-0">
             <div className="relative h-[500px] w-full rounded-lg overflow-hidden">
-              <div 
-                ref={mapRef} 
+              <div
+                ref={mapRef}
                 style={{ height: "100%", width: "100%" }}
                 className="z-0"
               />
-              
+
               {!mapLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                   <div className="text-center">
@@ -173,16 +182,16 @@ export function GoogleMapsView({ className }: MapViewProps) {
           </CardHeader>
           <CardContent className="max-h-[250px] overflow-y-auto">
             <div className="space-y-3">
-              {mockVehicles.map((vehicle) => (
+              {currentVehicles.map((vehicle) => (
                 <div
                   key={vehicle.id}
                   className={cn(
                     "p-3 rounded-lg border cursor-pointer transition-all duration-200",
-                    selectedVehicle === vehicle.id
+                    currentSelectedVehicle === vehicle.id
                       ? "border-blue-500 bg-blue-50"
                       : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                   )}
-                  onClick={() => setSelectedVehicle(vehicle.id)}
+                  onClick={() => setInternalSelectedVehicle(vehicle.id)}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2">
@@ -226,25 +235,25 @@ export function GoogleMapsView({ className }: MapViewProps) {
             <div className="grid grid-cols-2 gap-3">
               <div className="text-center p-2 bg-green-50 rounded-lg">
                 <div className="text-xl font-bold text-green-600">
-                  {mockVehicles.filter(v => v.status === "active").length}
+                  {currentVehicles.filter(v => v.status === "active").length}
                 </div>
                 <div className="text-xs text-gray-600">Active</div>
               </div>
               <div className="text-center p-2 bg-red-50 rounded-lg">
                 <div className="text-xl font-bold text-red-600">
-                  {mockVehicles.filter(v => v.status === "delayed").length}
+                  {currentVehicles.filter(v => v.status === "delayed").length}
                 </div>
                 <div className="text-xs text-gray-600">Delayed</div>
               </div>
               <div className="text-center p-2 bg-yellow-50 rounded-lg">
                 <div className="text-xl font-bold text-yellow-600">
-                  {mockVehicles.filter(v => v.status === "idle").length}
+                  {currentVehicles.filter(v => v.status === "idle").length}
                 </div>
                 <div className="text-xs text-gray-600">Idle</div>
               </div>
               <div className="text-center p-2 bg-gray-50 rounded-lg">
                 <div className="text-xl font-bold text-gray-600">
-                  {mockVehicles.filter(v => v.status === "maintenance").length}
+                  {currentVehicles.filter(v => v.status === "maintenance").length}
                 </div>
                 <div className="text-xs text-gray-600">Maintenance</div>
               </div>
